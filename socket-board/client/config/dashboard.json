@@ -2,86 +2,33 @@
   "layout": {
 
     "slots": [
-      {"slotid": "slot_1", "widget" : "clock",        "job" : "clock",         "config": "clock"},
-      {"slotid": "slot_2", "widget" : "image",        "job" : "picture-of-the-day",  "config": "picture"},
-      {"slotid": "slot_3", "widget" : "quotes",       "job" : "quotes",              "config": "quotes-famous"},
-      {"slotid": "slot_4", "widget" : "keyvaluelist", "job" : "issue-types",         "config": "issue-types"},
-      {"slotid": "slot_5", "widget" : "calendar",     "job" : "google-calendar",     "config": "calendar-holidays"}
+      {"slotid": "slot_1", "widget" : "clock",    "config": "clock"},
+      {"slotid": "slot_5", "widget" : "forecast", "config": "wunderground-forecast"}
     ]
   },
 
   "config" : {
-
+    "clock": {
+      "widgetTitle": "Current Time",
+      "interval": 1000
+    },
     "calendar-holidays": {
       "interval": 60000,
       "calendarUrl": "http://www.calendarlabs.com/templates/ical/US-Holidays.ics",
       "maxEntries": 9,
       "widgetTitle": "Upcoming US Holidays"
     },
-
-    "issue-types": {
-      "interval": 60000,
-      "widgetTitle": "Issues Types in the Project",
-      "database": {
-        "host": "mydatabase.mycompany.com",
-        "port": 1000,
-        "database": "salesdb"
-      }
-    },
-
-    "picture": {
+    "picture-of-the-day": {
       "interval": 60000,
       "widgetTitle": "Nat Geo Picture of the Day",
       "url": "http://photography.nationalgeographic.com/photography/photo-of-the-day"
     },
 
-    "quotes-famous": {
+    "wunderground-forecast": {
       "interval": 60000,
-      "widgetTitle": "Famous Quotes",
-      "quotes": [
-        {
-          "quote": "It's not that I'm so smart, it's just that I stay with problems longer.",
-          "author": "Albert Einstein"
-        },
-        {
-          "quote": "Ignorance is the curse of God; knowledge is the wing wherewith we fly to heaven.",
-          "author": "William Shakespeare"
-        },
-        {
-          "quote": "Software built on pride and love of subject is superior to software built for profit.",
-          "author": "Ravi Simhambhatla"
-        },
-        {
-          "quote": "If developers’ pains are Java and .NET, the antidote is dynamic languages and frameworks.",
-          "author": "Jeffrey Hammond"
-        },
-        {
-          "quote": "Software is like sex: it's better when it's free.",
-          "author": "Linus Torvalds"
-        },
-        {
-          "quote": "People enjoy the interaction on the Internet, and the feeling of belonging to a group that does something interesting: that's how some software projects are born.",
-          "author": "Linus Torvalds"
-        },
-        {
-          "quote": "The ultimate search engine would basically understand everything in the world, and it would always give you the right thing.",
-          "author": "Larry Page"
-        },
-        {
-          "quote": "Mathematics is the queen of the sciences and number theory is the queen of mathematics.",
-          "author": "Carl Friedrich Gauss"
-        },
-        {
-          "quote": "Computer science is no more about computers than astronomy is about telescopes.",
-          "author": "Edsger Dijkstra"
-        }
-      ],
-      "limit": 3
-    },
-
-    "sales": {
-      "interval": 60000,
-      "widgetTitle": "Monthly Sales"
+      "widgetTitle": "Wunderground Forecast",
+      "url": "resource/wunderground_forecast.json"
     }
+
   }
 }

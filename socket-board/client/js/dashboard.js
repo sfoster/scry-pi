@@ -1,6 +1,7 @@
-var defaultConfig = {
+(function(exports) {
+'use strict';
 
-};
+var defaultConfig = {};
 
 function Dashboard(options) {
   if (options) {
@@ -8,6 +9,7 @@ function Dashboard(options) {
       this[i] = options[i];
     }
   }
+  this.intervals = {};
 }
 Dashboard.prototype.configUrl = 'config/dashboard.json'
 
@@ -18,7 +20,7 @@ Dashboard.prototype.init = function() {
     return resp.json();
   }).then(function(data) {
     this.reConfig(data);
-    this.updateAndRender();
+    this.initialUpdateAndRender();
   }.bind(this))
   .catch(function(err) {
     console.warn('Failed to init with ' + url, err);
@@ -30,7 +32,6 @@ Dashboard.prototype.reConfig = function(data) {
   data = data || {};
   // TODO: teardown
   this.widgets = {};
-  this.jobs = {};
 
   for(var i in defaultConfig) {
     if(!(i in data)) {
@@ -42,16 +43,16 @@ Dashboard.prototype.reConfig = function(data) {
   this.widgets = {};
   this.slots = {};
 
-  var widget;
+  var widget, _slot, widgetConfig;
   console.log('populate for slots: ', data.layout.slots);
   for(var i=0; i<data.layout.slots.length; i++) {
-    var _slot = data.layout.slots[i];
+    _slot = data.layout.slots[i];
+    widgetConfig = this.config[_slot.config] || {};
     console.log('reConfig, preparing widget for:', _slot);
-    var widget = new Widget(_slot.widget, {
+    widget = Widget.createWidget(_slot.widget, {
       // TODO: better slot / node mapping
       node: this.node.querySelector('#'+_slot.slotid),
-      job: _slot.job,
-      config: this.config[_slot.config]
+      config: widgetConfig
     });
     console.log('reConfig, assigned widget:', widget);
     this.slots[_slot.slotid] = widget.id;
@@ -59,15 +60,61 @@ Dashboard.prototype.reConfig = function(data) {
   }
 }
 
-Dashboard.prototype.updateAndRender = function() {
-  var names = Object.keys(this.widgets);
+Dashboard.prototype.prepareIntervals = function() {
+  var widget;
+  var itv;
+  this.intervals = {};
+  for(var id in this.widgets) {
+    widget = this.widgets[id];
+    itv = parseInt(widget.config.interval);
+    if (!isNaN(itv)) {
+      if (!this.intervals[itv]) {
+        this.intervals[itv] = [];
+      }
+      this.intervals[itv].push(id);
+    }
+  }
+  Object.keys(this.intervals).forEach(function(itv) {
+    console.log('start timer for interval: ', itv);
+    var timer = setInterval(this.onInterval.bind(this, itv), itv);
+    this.intervals[itv].timer = timer;
+  }, this);
+};
+
+Dashboard.prototype.onInterval = function(itv) {
+  console.log('onInterval: ', itv);
+  console.log('intervals: ', this.intervals);
+  var ids = this.intervals[itv];
+  var updated;
+  if (ids && ids.length) {
+    this.updateAndRender(ids);
+  }
+};
+
+Dashboard.prototype.stop = function() {
+  var timer, itv;
+  for(itv in this.intervals) {
+    timer = this.intervals[itv].timer;
+    console.log('stop: ', itv, timer);
+    timer && clearInterval(timer);
+  }
+};
+
+Dashboard.prototype.initialUpdateAndRender = function() {
+  this.prepareIntervals();
+  this.updateAndRender();
+};
+
+Dashboard.prototype.updateAndRender = function(ids) {
+  ids = ids || Object.keys(this.widgets);
   var rendered = [];
-  Promise.all(this.updateAllWidgets())
+
+  Promise.all(this.updateWidgets(ids))
   .then(function(results) {
-    console.log('all updated');
+    console.log('updated:', results);
     var widget, result, name;
-    for(var i=0; i<names.length; i++) {
-      name = names[i];
+    for(var i=0; i<ids.length; i++) {
+      name = ids[i];
       widget = this.widgets[name];
       result = results.shift();
       rendered.push(widget.render(result));
@@ -76,15 +123,19 @@ Dashboard.prototype.updateAndRender = function() {
   }.bind(this));
 }
 
-Dashboard.prototype.updateAllWidgets = function() {
-  var names = Object.keys(this.widgets);
+Dashboard.prototype.updateWidgets = function(ids) {
+  ids = ids || Object.keys(this.widgets);
   var widget;
   var name;
   var updated = [];
-  for(var i=0; i<names.length; i++) {
-    name = names[i];
+  for(var i=0; i<ids.length; i++) {
+    name = ids[i];
     widget = this.widgets[name];
     updated.push(Promise.resolve(widget.update()));
   }
   return updated;
 }
+
+exports.Dashboard = Dashboard;
+
+})(window);

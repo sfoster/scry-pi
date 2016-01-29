@@ -1,0 +1,384 @@
+{
+  "forecast": {
+    "simpleforecast": {
+      "forecastday": [
+        {
+          "avehumidity": 72,
+          "avewind": {
+            "degrees": 272,
+            "dir": "West",
+            "kph": 27,
+            "mph": 17
+          },
+          "conditions": "Partly Cloudy",
+          "date": {
+            "ampm": "PM",
+            "day": 26,
+            "epoch": "1340776800",
+            "hour": 23,
+            "isdst": "1",
+            "min": "00",
+            "month": 6,
+            "monthname": "June",
+            "pretty": "11:00 PM PDT on June 26, 2012",
+            "sec": 0,
+            "tz_long": "America/Los_Angeles",
+            "tz_short": "PDT",
+            "weekday": "Tuesday",
+            "weekday_short": "Tue",
+            "yday": 177,
+            "year": 2012
+          },
+          "high": {
+            "celsius": "20",
+            "fahrenheit": "68"
+          },
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "low": {
+            "celsius": "10",
+            "fahrenheit": "50"
+          },
+          "maxhumidity": 94,
+          "maxwind": {
+            "degrees": 272,
+            "dir": "West",
+            "kph": 34,
+            "mph": 21
+          },
+          "minhumidity": 58,
+          "period": 1,
+          "pop": 0,
+          "qpf_allday": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_day": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_night": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "skyicon": "mostlysunny",
+          "snow_allday": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_day": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_night": {
+            "cm": 0,
+            "in": 0
+          }
+        },
+        {
+          "avehumidity": 70,
+          "avewind": {
+            "degrees": 252,
+            "dir": "WSW",
+            "kph": 14,
+            "mph": 9
+          },
+          "conditions": "Partly Cloudy",
+          "date": {
+            "ampm": "PM",
+            "day": 27,
+            "epoch": "1340863200",
+            "hour": 23,
+            "isdst": "1",
+            "min": "00",
+            "month": 6,
+            "monthname": "June",
+            "pretty": "11:00 PM PDT on June 27, 2012",
+            "sec": 0,
+            "tz_long": "America/Los_Angeles",
+            "tz_short": "PDT",
+            "weekday": "Wednesday",
+            "weekday_short": "Wed",
+            "yday": 178,
+            "year": 2012
+          },
+          "high": {
+            "celsius": "22",
+            "fahrenheit": "72"
+          },
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "low": {
+            "celsius": "12",
+            "fahrenheit": "54"
+          },
+          "maxhumidity": 84,
+          "maxwind": {
+            "degrees": 255,
+            "dir": "WSW",
+            "kph": 18,
+            "mph": 11
+          },
+          "minhumidity": 54,
+          "period": 2,
+          "pop": 0,
+          "qpf_allday": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_day": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_night": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "skyicon": "mostlysunny",
+          "snow_allday": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_day": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_night": {
+            "cm": 0,
+            "in": 0
+          }
+        },
+        {
+          "avehumidity": 80,
+          "avewind": {
+            "degrees": 256,
+            "dir": "WSW",
+            "kph": 19,
+            "mph": 12
+          },
+          "conditions": "Partly Cloudy",
+          "date": {
+            "ampm": "PM",
+            "day": 28,
+            "epoch": "1340949600",
+            "hour": 23,
+            "isdst": "1",
+            "min": "00",
+            "month": 6,
+            "monthname": "June",
+            "pretty": "11:00 PM PDT on June 28, 2012",
+            "sec": 0,
+            "tz_long": "America/Los_Angeles",
+            "tz_short": "PDT",
+            "weekday": "Thursday",
+            "weekday_short": "Thu",
+            "yday": 179,
+            "year": 2012
+          },
+          "high": {
+            "celsius": "22",
+            "fahrenheit": "72"
+          },
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "low": {
+            "celsius": "12",
+            "fahrenheit": "54"
+          },
+          "maxhumidity": 91,
+          "maxwind": {
+            "degrees": 265,
+            "dir": "West",
+            "kph": 22,
+            "mph": 14
+          },
+          "minhumidity": 56,
+          "period": 3,
+          "pop": 0,
+          "qpf_allday": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_day": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_night": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "skyicon": "partlycloudy",
+          "snow_allday": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_day": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_night": {
+            "cm": 0,
+            "in": 0
+          }
+        },
+        {
+          "avehumidity": 79,
+          "avewind": {
+            "degrees": 272,
+            "dir": "West",
+            "kph": 16,
+            "mph": 10
+          },
+          "conditions": "Fog",
+          "date": {
+            "ampm": "PM",
+            "day": 29,
+            "epoch": "1341036000",
+            "hour": 23,
+            "isdst": "1",
+            "min": "00",
+            "month": 6,
+            "monthname": "June",
+            "pretty": "11:00 PM PDT on June 29, 2012",
+            "sec": 0,
+            "tz_long": "America/Los_Angeles",
+            "tz_short": "PDT",
+            "weekday": "Friday",
+            "weekday_short": "Fri",
+            "yday": 180,
+            "year": 2012
+          },
+          "high": {
+            "celsius": "20",
+            "fahrenheit": "68"
+          },
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "low": {
+            "celsius": "11",
+            "fahrenheit": "52"
+          },
+          "maxhumidity": 93,
+          "maxwind": {
+            "degrees": 267,
+            "dir": "West",
+            "kph": 18,
+            "mph": 11
+          },
+          "minhumidity": 63,
+          "period": 4,
+          "pop": 0,
+          "qpf_allday": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_day": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "qpf_night": {
+            "in": 0.0,
+            "mm": 0.0
+          },
+          "skyicon": "mostlysunny",
+          "snow_allday": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_day": {
+            "cm": 0,
+            "in": 0
+          },
+          "snow_night": {
+            "cm": 0,
+            "in": 0
+          }
+        }
+      ]
+    },
+    "txt_forecast": {
+      "date": "2:00 PM PDT",
+      "forecastday": [
+        {
+          "fcttext": "Partly cloudy in the morning, then clear. High of 68F. Breezy. Winds from the West at 10 to 25 mph.",
+          "fcttext_metric": "Partly cloudy in the morning, then clear. High of 20C. Windy. Winds from the West at 20 to 35 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 0,
+          "pop": "0",
+          "title": "Tuesday"
+        },
+        {
+          "fcttext": "Mostly cloudy. Fog overnight. Low of 50F. Winds from the WSW at 5 to 15 mph.",
+          "fcttext_metric": "Mostly cloudy. Fog overnight. Low of 10C. Breezy. Winds from the WSW at 10 to 20 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 1,
+          "pop": "0",
+          "title": "Tuesday Night"
+        },
+        {
+          "fcttext": "Mostly cloudy. Fog early. High of 72F. Winds from the WSW at 10 to 15 mph.",
+          "fcttext_metric": "Mostly cloudy. Fog early. High of 22C. Breezy. Winds from the WSW at 15 to 20 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 2,
+          "pop": "0",
+          "title": "Wednesday"
+        },
+        {
+          "fcttext": "Overcast. Fog overnight. Low of 54F. Winds from the WSW at 5 to 15 mph.",
+          "fcttext_metric": "Overcast. Fog overnight. Low of 12C. Breezy. Winds from the WSW at 10 to 20 km/h.",
+          "icon": "mostlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/mostlycloudy.gif",
+          "period": 3,
+          "pop": "0",
+          "title": "Wednesday Night"
+        },
+        {
+          "fcttext": "Overcast in the morning, then partly cloudy. Fog early. High of 72F. Winds from the WSW at 10 to 15 mph.",
+          "fcttext_metric": "Overcast in the morning, then partly cloudy. Fog early. High of 22C. Breezy. Winds from the WSW at 15 to 25 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 4,
+          "pop": "0",
+          "title": "Thursday"
+        },
+        {
+          "fcttext": "Partly cloudy in the evening, then overcast. Fog overnight. Low of 54F. Winds from the WNW at 5 to 15 mph.",
+          "fcttext_metric": "Partly cloudy in the evening, then overcast. Fog overnight. Low of 12C. Breezy. Winds from the WNW at 10 to 20 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 5,
+          "pop": "0",
+          "title": "Thursday Night"
+        },
+        {
+          "fcttext": "Overcast in the morning, then partly cloudy. Fog early. High of 68F. Winds from the West at 5 to 15 mph.",
+          "fcttext_metric": "Overcast in the morning, then partly cloudy. Fog early. High of 20C. Breezy. Winds from the West at 10 to 20 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 6,
+          "pop": "0",
+          "title": "Friday"
+        },
+        {
+          "fcttext": "Mostly cloudy. Fog overnight. Low of 52F. Winds from the West at 5 to 10 mph.",
+          "fcttext_metric": "Mostly cloudy. Fog overnight. Low of 11C. Winds from the West at 10 to 15 km/h.",
+          "icon": "partlycloudy",
+          "icon_url": "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif",
+          "period": 7,
+          "pop": "0",
+          "title": "Friday Night"
+        }
+      ]
+    }
+  },
+  "response": {
+    "features": {
+      "forecast": 1
+    },
+    "termsofService": "http://www.wunderground.com/weather/api/d/terms.html",
+    "version": "0.1"
+  }
+}
