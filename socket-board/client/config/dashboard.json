@@ -25,9 +25,8 @@
     },
 
     "wunderground-forecast": {
-      "interval": 60000,
       "widgetTitle": "Wunderground Forecast",
-      "url": "resource/wunderground_forecast.json"
+      "url": "/wunderground/api/forecast/q/OR/Eugene.json"
     }
 
   }
