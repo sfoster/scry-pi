@@ -6,7 +6,29 @@ command_exists () {
     type "$1" &> /dev/null ;
 }
 
-apt-get update
+should_update=true
+
+while getopts "uU" opt; do
+  case $opt in
+    U)
+      should_update=false
+      ;;
+    u)
+      should_update=true
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if $should_update; then
+  apt-get update
+else
+  echo "Skipping apt-get update" >&2
+fi
+
 apt-get install --no-install-recommends -y -q wget curl
 
 if ! command_exists mosquitto;  then
@@ -43,13 +65,10 @@ chmod +x /etc/default/scrypi
 # install the button listener as a service
 cp buttonservice.sh /etc/init.d/buttonservice.sh
 chmod +x /etc/init.d/buttonservice.sh
-update-rc.d /etc/init.d/buttonservice.sh defaults
+update-rc.d buttonservice.sh defaults
 systemctl daemon-reload
 
 # setup the monitor app
 cd ./monitor
 npm install
 cd ..
-
-
-
