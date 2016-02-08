@@ -17,11 +17,6 @@ DAEMON_NAME=buttonpi
 
 [ -f /etc/default/scrypi ] && . /etc/default/scrypi
 
-if [ -z "$MQTT_HOST" ] ;  then
-  echo "MQTT_HOST is not set, please set it in /etc/default/scrypi" >&2
-  exit 1
-fi
-
 # Add any command line options for your daemon here
 DAEMON_OPTS=""
 
@@ -34,7 +29,15 @@ PIDFILE=/var/run/$DAEMON_NAME.pid
 
 . /lib/lsb/init-functions
 
+if [ -z "$MQTT_HOST" ] ;  then
+  echo "MQTT_HOST is not set, please set it in /etc/default/scrypi" >&2
+  exit 1
+else
+  echo "Using host: $MQTT_HOST" >&2
+fi
+
 do_start () {
+    echo "Starting system $DAEMON_NAME daemon on $MQTT_HOST"
     log_daemon_msg "Starting system $DAEMON_NAME daemon on $MQTT_HOST"
     start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
     log_end_msg $?
