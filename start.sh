@@ -13,6 +13,8 @@ sudo /etc/init.d/buttonservice.sh stop
 sudo /etc/init.d/buttonservice.sh start
 
 # start up the mqtt monitor
+cd monitor
 pm2 stop monitor && pm2 delete monitor
-sed "s|__MQTT_HOST__|$MQTT_HOST|" monitor/config.template > monitor/config.json
-pm2 start monitor/config.json --name="monitor"
+sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config.template > ./config.json
+pm2 start ./config.json --name="monitor"
+cd ..
