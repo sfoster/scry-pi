@@ -34,14 +34,19 @@ if ! command_exists wget;  then
 fi
 
 if ! command_exists curl;  then
-  sudo apt-get install --no-install-recommends -y -q curl
+  sudo apt-get install --no-install-recommends -y -q curl ca-certificates
 fi
 
+sudo apt-get install --reinstall ca-certificates
+
 if ! command_exists gpio-admin; then
-  git clone https://github.com/quick2wire/quick2wire-gpio-admin.git
-  cd quick2wire-gpio-admin
+  echo "gpio-admin not installed" >&2
+  curl -SL --output quick2wire-gpio-admin.zip https://github.com/quick2wire/quick2wire-gpio-admin/archive/master.zip
+  unzip -a quick2wire-gpio-admin.zip
+  cd quick2wire-gpio-admin-master
   make && sudo make install
   sudo adduser $USER gpio
+  cd .. && rm -R quick2wire-gpio-admin-master quick2wire-gpio-admin.zip
 fi
 
 if ! command_exists mosquitto;  then
@@ -55,10 +60,8 @@ fi
 if ! command_exists node;  then
   echo "Nodejs not installed" >&2
   # install Node.js
-  buildDeps='curl ca-certificates' \
+  sudo  rm -rf /var/lib/apt/lists/* \
     && set -x \
-    && sudo apt-get update && sudo apt-get install -y $buildDeps --no-install-recommends \
-    && sudo  rm -rf /var/lib/apt/lists/* \
     && curl -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-armv7l.tar.gz" \
     && sudo tar -xzf "node-v$NODE_VERSION-linux-armv7l.tar.gz" -C /usr/local --strip-components=1 \
     && rm "node-v$NODE_VERSION-linux-armv7l.tar.gz" \
