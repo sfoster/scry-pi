@@ -2,7 +2,8 @@
 
 cd `dirname $0`
 
-source common/defaults
+[ -f ./common/defaults ] && . common/defaults
+echo "MQTT_HOST: $MQTT_HOST"
 
 # start up mosquitto
 sudo /etc/init.d/mosquitto stop
