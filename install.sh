@@ -6,15 +6,19 @@ command_exists () {
   type "$1" &> /dev/null ;
 }
 
-should_update=true
+should_apt_update=true
+should_install_certs=true
 
-while getopts "uU" opt; do
+while getopts "uUC" opt; do
   case $opt in
     U)
-      should_update=false
+      should_apt_update=false
       ;;
     u)
-      should_update=true
+      should_apt_update=true
+      ;;
+    C)
+      should_install_certs=false
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -23,7 +27,7 @@ while getopts "uU" opt; do
   esac
 done
 
-if $should_update; then
+if $should_apt_update; then
   sudo apt-get update
 else
   echo "Skipping apt-get update" >&2
@@ -37,7 +41,9 @@ if ! command_exists curl;  then
   sudo apt-get install --no-install-recommends -y -q curl ca-certificates
 fi
 
-sudo apt-get install --reinstall ca-certificates
+if should_install_certs; then
+  sudo apt-get install --reinstall ca-certificates
+fi
 
 if ! command_exists gpio-admin; then
   echo "gpio-admin not installed" >&2
@@ -55,6 +61,13 @@ if ! command_exists mosquitto;  then
   wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key && sudo apt-key add mosquitto-repo.gpg.key
   sudo wget -O /etc/apt/sources.list.d/mosquitto-jessie.list http://repo.mosquitto.org/debian/mosquitto-jessie.list
   sudo apt-get update && sudo apt-get install --no-install-recommends -y -q mosquitto
+fi
+
+if ! command_exists mosquitto_pub;  then
+  sudo apt-get install --no-install-recommends -y -q mosquitto_pub
+fi
+if ! command_exists mosquitto_sub;  then
+  sudo apt-get install --no-install-recommends -y -q mosquitto_sub
 fi
 
 if ! command_exists node;  then
