@@ -41,7 +41,7 @@ if ! command_exists curl;  then
   sudo apt-get install --no-install-recommends -y -q curl ca-certificates
 fi
 
-if should_install_certs; then
+if $should_install_certs; then
   sudo apt-get install --reinstall ca-certificates
 fi
 
@@ -64,10 +64,7 @@ if ! command_exists mosquitto;  then
 fi
 
 if ! command_exists mosquitto_pub;  then
-  sudo apt-get install --no-install-recommends -y -q mosquitto_pub
-fi
-if ! command_exists mosquitto_sub;  then
-  sudo apt-get install --no-install-recommends -y -q mosquitto_sub
+  sudo apt-get install --no-install-recommends -y -q mosquitto-clients
 fi
 
 if ! command_exists node;  then
