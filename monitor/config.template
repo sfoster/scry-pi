@@ -1,0 +1,13 @@
+{
+  "apps" : [{
+    "name"        : "monitor",
+    "script"      : "index.js",
+    "merge_logs"  : true,
+    "env": {
+      "NODE_ENV"  : "development",
+      "MQTT_HOST" : "__MQTT_HOST__"
+    },
+    "error_file"  : "./monitor-err.log",
+    "out_file"    : "./monitor-out.log"
+  }]
+}
