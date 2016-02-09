@@ -3,7 +3,7 @@
 NODE_VERSION=5.3.0
 
 command_exists () {
-    type "$1" &> /dev/null ;
+  type "$1" &> /dev/null ;
 }
 
 should_update=true
@@ -24,19 +24,32 @@ while getopts "uU" opt; do
 done
 
 if $should_update; then
-  apt-get update
+  sudo apt-get update
 else
   echo "Skipping apt-get update" >&2
 fi
 
-apt-get install --no-install-recommends -y -q wget curl
+if ! command_exists wget;  then
+  sudo apt-get install --no-install-recommends -y -q wget
+fi
+
+if ! command_exists curl;  then
+  sudo apt-get install --no-install-recommends -y -q curl
+fi
+
+if ! command_exists gpio-admin; then
+  git clone https://github.com/quick2wire/quick2wire-gpio-admin.git
+  cd quick2wire-gpio-admin
+  make && sudo make install
+  sudo adduser $USER gpio
+fi
 
 if ! command_exists mosquitto;  then
   echo "Mosquitto not installed" >&2
   # install Mosquitto
-  wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key && apt-key add mosquitto-repo.gpg.key
-  wget -O /etc/apt/sources.list.d/mosquitto-jessie.list http://repo.mosquitto.org/debian/mosquitto-jessie.list
-  apt-get update && apt-get install --no-install-recommends -y -q mosquitto
+  wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key && sudo apt-key add mosquitto-repo.gpg.key
+  sudo wget -O /etc/apt/sources.list.d/mosquitto-jessie.list http://repo.mosquitto.org/debian/mosquitto-jessie.list
+  sudo apt-get update && sudo apt-get install --no-install-recommends -y -q mosquitto
 fi
 
 if ! command_exists node;  then
@@ -44,29 +57,29 @@ if ! command_exists node;  then
   # install Node.js
   buildDeps='curl ca-certificates' \
     && set -x \
-    && apt-get update && apt-get install -y $buildDeps --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/* \
+    && sudo apt-get update && sudo apt-get install -y $buildDeps --no-install-recommends \
+    && sudo  rm -rf /var/lib/apt/lists/* \
     && curl -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-armv7l.tar.gz" \
-    && tar -xzf "node-v$NODE_VERSION-linux-armv7l.tar.gz" -C /usr/local --strip-components=1 \
+    && sudo tar -xzf "node-v$NODE_VERSION-linux-armv7l.tar.gz" -C /usr/local --strip-components=1 \
     && rm "node-v$NODE_VERSION-linux-armv7l.tar.gz" \
-    && apt-get purge -y --auto-remove $buildDeps \
-    && npm config set unsafe-perm true -g --unsafe-perm \
-    && rm -rf /tmp/*
+    && sudo apt-get purge -y --auto-remove $buildDeps \
+    && sudo npm config set unsafe-perm true -g --unsafe-perm \
+    && sudo rm -rf /tmp/*
 fi
 
 if ! command_exists pm2;  then
-  npm install pm2 -g
+  sudo npm install pm2 -g
 fi
 
 # install defaults script to set up common environment for services
-cp common/defaults /etc/default/scrypi
-chmod +x /etc/default/scrypi
+sudo cp common/defaults /etc/default/scrypi
+sudo chmod +x /etc/default/scrypi
 
 # install the button listener as a service
-cp buttonservice.sh /etc/init.d/buttonservice.sh
-chmod +x /etc/init.d/buttonservice.sh
-update-rc.d buttonservice.sh defaults
-systemctl daemon-reload
+sudo cp buttonservice.sh /etc/init.d/buttonservice.sh
+sudo chmod +x /etc/init.d/buttonservice.sh
+sudo update-rc.d buttonservice.sh defaults
+sudo systemctl daemon-reload
 
 # setup the monitor app
 cd ./monitor
