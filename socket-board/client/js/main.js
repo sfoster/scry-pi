@@ -41,15 +41,16 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }, 300)
   });
 
-  wrapperNode.addEventListener('click', function(evt) {
-    if (wrapperNode.requestFullscreen) {
-      wrapperNode.requestFullscreen();
-    } else if (wrapperNode.msRequestFullscreen) {
-      wrapperNode.msRequestFullscreen();
-    } else if (wrapperNode.mozRequestFullScreen) {
-      wrapperNode.mozRequestFullScreen();
-    } else if (wrapperNode.webkitRequestFullscreen) {
-      wrapperNode.webkitRequestFullscreen();
+  var outerNode = document.body;
+  outerNode.addEventListener('click', function(evt) {
+    if (outerNode.requestFullscreen) {
+      outerNode.requestFullscreen();
+    } else if (outerNode.msRequestFullscreen) {
+      outerNode.msRequestFullscreen();
+    } else if (outerNode.mozRequestFullScreen) {
+      outerNode.mozRequestFullScreen();
+    } else if (outerNode.webkitRequestFullscreen) {
+      outerNode.webkitRequestFullscreen();
     }
   });
 
