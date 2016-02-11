@@ -1,0 +1,4 @@
+{
+  "wunderground_api_key": "003d0486c8b1f8ab",
+  "wunderground_api_url": "http://api.wunderground.com/api/${wunderground_api_key}"
+}
