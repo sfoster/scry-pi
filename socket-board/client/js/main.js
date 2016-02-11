@@ -3,9 +3,10 @@
 // populate each slot
 
 document.addEventListener('DOMContentLoaded', function(event) {
+  var wrapperNode = document.getElementById('wrapper');
   console.log('main: init dashboard');
   window.dashboard = new Dashboard({
-    node: document.getElementById('wrapper')
+    node: wrapperNode
   });
   window.dashboard.init();
 
@@ -39,4 +40,17 @@ document.addEventListener('DOMContentLoaded', function(event) {
       node.classList.remove('glow');
     }, 300)
   });
+
+  wrapperNode.addEventListener('click', function(evt) {
+    if (wrapperNode.requestFullscreen) {
+      wrapperNode.requestFullscreen();
+    } else if (wrapperNode.msRequestFullscreen) {
+      wrapperNode.msRequestFullscreen();
+    } else if (wrapperNode.mozRequestFullScreen) {
+      wrapperNode.mozRequestFullScreen();
+    } else if (wrapperNode.webkitRequestFullscreen) {
+      wrapperNode.webkitRequestFullscreen();
+    }
+  });
+
 });
