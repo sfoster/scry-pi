@@ -1,0 +1,26 @@
+{
+  "apps" : [
+    {
+      "name"        : "monitor",
+      "script"      : "monitor/index.js",
+      "merge_logs"  : true,
+      "env": {
+        "NODE_ENV"  : "development",
+        "MQTT_HOST" : "__MQTT_HOST__"
+      },
+      "error_file"  : "./logs/monitor-err.log",
+      "out_file"    : "./logs/monitor-out.log"
+    },
+    {
+      "name"        : "socket-www",
+      "script"      : "socket-board/bin/www",
+      "merge_logs"  : true,
+      "env": {
+        "NODE_ENV"  : "development",
+        "MQTT_HOST" : "__MQTT_HOST__"
+      },
+      "error_file"  : "./logs/socket-www-err.log",
+      "out_file"    : "./logs/socket-www-out.log"
+    }
+  ]
+}
