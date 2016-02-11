@@ -24,5 +24,19 @@ module.exports = function(variant) {
   }
 
   var filestr = fs.readFileSync(pathname, 'utf8');
-  return JSON.parse(filestr);
+  var data = JSON.parse(filestr);
+
+  return {
+    _data: data,
+    get: function(key) {
+      if (!(key in data)) {
+        throw new Error('No such config entry: ' + key);
+      }
+      // some way to do this with template strings?
+      var value = data[key].replace(/\$\{[^\}]+\}/g, function(m, name) {
+        return (name in data) ? data[name] :  '';
+      });
+      return value;
+    }
+  }
 };

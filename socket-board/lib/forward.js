@@ -7,7 +7,7 @@ module.exports = function(pattern, host, args) {
           target_url = [host, target_path].join('/');
       if (args) {
         // replace placeholders
-        target_url = target_url.replace(/\{([^\}]+)\}/, function(m, name) {
+        target_url = target_url.replace(/\$?\{([^\}]+)\}/, function(m, name) {
           return args[name] || ''
         });
       }

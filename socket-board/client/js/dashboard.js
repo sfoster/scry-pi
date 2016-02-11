@@ -82,8 +82,6 @@ Dashboard.prototype.prepareIntervals = function() {
 };
 
 Dashboard.prototype.onInterval = function(itv) {
-  console.log('onInterval: ', itv);
-  console.log('intervals: ', this.intervals);
   var ids = this.intervals[itv];
   var updated;
   if (ids && ids.length) {
@@ -111,7 +109,6 @@ Dashboard.prototype.updateAndRender = function(ids) {
 
   Promise.all(this.updateWidgets(ids))
   .then(function(results) {
-    console.log('updated:', results);
     var widget, result, name;
     for(var i=0; i<ids.length; i++) {
       name = ids[i];

@@ -9,12 +9,22 @@
         height: 100%;
         overflow: hidden;
         margin: 0;
+      }
+      body {
         color: white;
         font-size: 18px;
         background-color: #000;
         font-family: Garamond, sans-serif;
         -moz-user-select: none;
+        transition: background-color 0.2s ease;
       }
+      body.glow {
+        background-color: #009;
+      }
+      body:not(.glow) {
+        transition-duration: 0.1s;
+      }
+
       #wrapper {
         padding: 1rem 1rem 4rem;
         position: absolute;
@@ -92,5 +102,6 @@
     <script src="js/forecast_widget.js" defer></script>
     <script src="js/dashboard.js" defer></script>
     <script src="js/main.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
   </body>
 </html>

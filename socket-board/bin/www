@@ -11,3 +11,15 @@ app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
 });
+
+var adapter = require('../socket_adapter');
+
+var io = require('socket.io')(server);
+io.on('connection', function (socket) {
+  adapter.connect({
+    emitter: socket
+  });
+  socket.on('client/ready', function (data) {
+    console.log('some client is ready: ', data);
+  });
+});

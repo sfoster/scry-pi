@@ -8,11 +8,13 @@ function ClockWidget(options) {
 ClockWidget.prototype = Object.create(Widget.prototype);
 ClockWidget.prototype.constructor = ClockWidget;
 
+ClockWidget.prototype.DEBUG = false;
+
 ClockWidget.prototype.update = function() {
   var now = new Date();
   this.time = now.toLocaleTimeString();
   this.date = now.toLocaleDateString();
-  console.log('Clock widget update: ' + this.id);
+  this.DEBUG && console.log('Clock widget update: ' + this.id);
 };
 
 ClockWidget.prototype.render = function(data) {
@@ -25,7 +27,7 @@ ClockWidget.prototype.render = function(data) {
     this.node.appendChild(this.dateNode);
     this.node.appendChild(this.timeNode);
   }
-  console.log('widget render: ' + this.id, data);
+  this.DEBUG && console.log('widget render: ' + this.id, data);
   this.timeNode.innerHTML = this.time;
   this.dateNode.innerHTML = this.date;
   this.firstRender = false;
