@@ -1,17 +1,23 @@
 #!/bin/sh
 
+command_exists () {
+  type "$1" &> /dev/null ;
+}
+
 cd `dirname $0`
 
 [ -f ./common/defaults ] && . common/defaults
 echo "MQTT_HOST: $MQTT_HOST"
 
 # start up mosquitto
-sudo /etc/init.d/mosquitto stop
-mosquitto --daemon
+# start up our button publisher
+if command_exists mosquitto ; then
+   sudo /etc/init.d/mosquitto stop
+   mosquitto --daemon
+fi
 
 # start up our button publisher
-#sudo /etc/init.d/buttonservice.sh stop
-#sudo /etc/init.d/buttonservice.sh start
+MQTT_HOST=$MQTT_HOST ./buttonpi/button.py &
 
 # start up the node apps
 pm2 stop all
