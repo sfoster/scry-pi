@@ -39,11 +39,11 @@ fi
 packages="nodm openbox xorg xinit unclutter";
 
 if ! command_exists wget;  then
-  packages = "$packages wget"
+  packages="$packages wget"
 fi
 
 if ! command_exists curl;  then
-  packages = "$packages curl ca-certificates"
+  packages="$packages curl ca-certificates"
 fi
 
 if $should_install_certs; then
@@ -65,16 +65,16 @@ if ! command_exists mosquitto;  then
   # install Mosquitto
   wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key && sudo apt-key add mosquitto-repo.gpg.key
   sudo wget -O /etc/apt/sources.list.d/mosquitto-jessie.list http://repo.mosquitto.org/debian/mosquitto-jessie.list
-  packages = "$packages mosquitto"
+  packages="$packages mosquitto"
   sudo apt-get update
 fi
 
 if ! command_exists mosquitto_pub;  then
-  packages = "$packages mosquitto-clients"
+  packages="$packages mosquitto-clients"
 fi
 
 if ! command_exists uzbl;  then
-  packages = "$packages uzbl"
+  packages="$packages uzbl"
 fi
 
 sudo apt-get install --no-install-recommends -y -q $packages
@@ -99,7 +99,7 @@ fi
 # add the SCRY_DIR to our defaults config
 # install defaults config to set up common environment for services
 echo \$SCRY_DIR=SCRY_DIR >> config/env
-sudo install -D common/env /etc/default/scrypi
+sudo install -D config/env /etc/default/scrypi
 
 # install the gpio listener as a service
 sudo install -D scry-gpio-service.sh /etc/init.d/scry-gpio-service.sh

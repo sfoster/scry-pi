@@ -8,7 +8,7 @@ cd `dirname $0`
 logfile=logs/start.log
 echo running start.sh at `date "+%c"` > $logfile
 
-[ -f ./common/defaults ] && . common/defaults
+source ./config/env
 echo "MQTT_HOST: $MQTT_HOST" >> $logfile
 
 # start up mosquitto
