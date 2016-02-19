@@ -27,7 +27,7 @@ echo "Started button publisher" >> $logfile
 
 # start up the node apps
 pm2 stop all
-sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config.template > ./config.json
+sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
 pm2 start ./config.json
 echo "Started apps with pm2" >> $logfile
 
