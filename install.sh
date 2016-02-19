@@ -124,6 +124,11 @@ function install_app {
   cd ./monitor
   npm install
   cd ..
+
+  # setup the socket-board app
+  cd ./socket-board
+  npm install
+  cd ..
 }
 
 if $should_install_deps; then
