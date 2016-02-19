@@ -1,29 +1,37 @@
-#!/bin/sh
+#!/bin/bash
 
 command_exists () {
   type "$1" &> /dev/null ;
 }
 
-cd `dirname $0`
+CONFIG=/etc/default/scrypi
+
+if ! [ -f $CONFIG ]; then
+  echo "$CONFIG not found, it should have installed when you ran install.sh?" >&2
+  exit 1
+fi
+
+source $CONFIG
+
+if [ -z "$SCRY_DIR" ] ;  then
+  echo "SCRY_DIR is not set, it should have been populated when you ran install.sh?" >&2
+  exit 1
+fi
+
+cd $SCRY_DIR
 logfile=logs/start.log
 echo running start.sh at `date "+%c"` > $logfile
 
-source ./config/env
 echo "MQTT_HOST: $MQTT_HOST" >> $logfile
 
 # start up mosquitto
 # start up our button publisher
-if command_exists mosquitto ; then
-   sudo /etc/init.d/mosquitto stop
-   mosquitto --daemon
-   echo "Started mosquitto" >> $logfile
-else
-   echo "Couldnt start mosquitto" >> $logfile
-fi
+sudo /etc/init.d/mosquitto restart
+echo "Re-started mosquitto broker" >> $logfile
 
 # start up our button publisher
-MQTT_HOST=$MQTT_HOST ./buttonpi/button.py &
-echo "Started button publisher" >> $logfile
+sudo /etc/init.d/scry-gpio-service.sh restart
+echo "Re-started button publisher" >> $logfile
 
 # start up the node apps
 pm2 stop all
