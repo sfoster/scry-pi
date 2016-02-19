@@ -110,12 +110,12 @@ function install_app {
   # add the SCRY_DIR to our defaults config
   # install defaults config to set up common environment for services
   sudo install -D config/env /etc/default/scrypi
-  sudo echo "SCRY_DIR=$SCRY_DIR" >> /etc/default/scrypi
+  echo "SCRY_DIR=$SCRY_DIR" | sudo tee -a /etc/default/scrypi > /dev/null
 
   # install the gpio listener as a service
+  sudo update-rc.d -f scry-gpio-service.sh remove
   sudo install -D scry-gpio-service.sh /etc/init.d/scry-gpio-service.sh
   sudo chmod +x /etc/init.d/scry-gpio-service.sh
-  sudo update-rc.d -f scry-gpio-service.sh remove
   sudo update-rc.d scry-gpio-service.sh defaults
   sudo systemctl daemon-reload
 
