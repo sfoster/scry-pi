@@ -11,11 +11,16 @@
 ### END INIT INFO
 
 # Where to install the script and what to call it
-DIR=/home/pi/mirror/buttonpi
-DAEMON=$DIR/button.py
-DAEMON_NAME=buttonpi
+CONFIG=/etc/default/scrypi
+source $CONFIG
 
-[ -f /etc/default/scrypi ] && . /etc/default/scrypi
+if [ -z "$SCRY_DIR" ] ;  then
+  echo "SCRY_DIR is not set, it should have been populated when you ran install.sh?" >&2
+  exit 1
+fi
+
+DAEMON=$SCRY_DIR/io-scripts/button.py
+DAEMON_NAME=scry-gpio
 
 # Add any command line options for your daemon here
 DAEMON_OPTS=""
@@ -30,7 +35,7 @@ PIDFILE=/var/run/$DAEMON_NAME.pid
 . /lib/lsb/init-functions
 
 if [ -z "$MQTT_HOST" ] ;  then
-  echo "MQTT_HOST is not set, please set it in /etc/default/scrypi" >&2
+  echo "MQTT_HOST is not set, please set it in $CONFIG" >&2
   exit 1
 else
   echo "Using host: $MQTT_HOST" >&2

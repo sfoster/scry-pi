@@ -1,10 +1,13 @@
 #!/bin/bash
 
-NODE_VERSION=5.3.0
-
 command_exists () {
   type "$1" &> /dev/null ;
 }
+
+cd `dirname $0`
+
+NODE_VERSION=5.3.0
+SCRY_DIR=`pwd`
 
 should_apt_update=true
 should_install_certs=true
@@ -33,12 +36,14 @@ else
   echo "Skipping apt-get update" >&2
 fi
 
+packages="nodm openbox xorg xinit unclutter";
+
 if ! command_exists wget;  then
-  sudo apt-get install --no-install-recommends -y -q wget
+  packages = "$packages wget"
 fi
 
 if ! command_exists curl;  then
-  sudo apt-get install --no-install-recommends -y -q curl ca-certificates
+  packages = "$packages curl ca-certificates"
 fi
 
 if $should_install_certs; then
@@ -56,16 +61,23 @@ if ! command_exists gpio-admin; then
 fi
 
 if ! command_exists mosquitto;  then
-  echo "Mosquitto not installed" >&2
+  echo "Mosquitto not installed, adding package repository" >&2
   # install Mosquitto
   wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key && sudo apt-key add mosquitto-repo.gpg.key
   sudo wget -O /etc/apt/sources.list.d/mosquitto-jessie.list http://repo.mosquitto.org/debian/mosquitto-jessie.list
-  sudo apt-get update && sudo apt-get install --no-install-recommends -y -q mosquitto
+  packages = "$packages mosquitto"
+  sudo apt-get update
 fi
 
 if ! command_exists mosquitto_pub;  then
-  sudo apt-get install --no-install-recommends -y -q mosquitto-clients
+  packages = "$packages mosquitto-clients"
 fi
+
+if ! command_exists uzbl;  then
+  packages = "$packages uzbl"
+fi
+
+sudo apt-get install --no-install-recommends -y -q $packages
 
 if ! command_exists node;  then
   echo "Nodejs not installed" >&2
@@ -84,15 +96,17 @@ if ! command_exists pm2;  then
   sudo npm install pm2 -g
 fi
 
-# install defaults script to set up common environment for services
-sudo cp common/defaults /etc/default/scrypi
-sudo chmod +x /etc/default/scrypi
+# add the SCRY_DIR to our defaults config
+# install defaults config to set up common environment for services
+echo \$SCRY_DIR=SCRY_DIR >> config/env
+sudo install -D common/env /etc/default/scrypi
 
-# install the button listener as a service
-sudo cp buttonservice.sh /etc/init.d/buttonservice.sh
-sudo chmod +x /etc/init.d/buttonservice.sh
-sudo update-rc.d buttonservice.sh defaults
+# install the gpio listener as a service
+sudo install -D scry-gpio-service.sh /etc/init.d/scry-gpio-service.sh
+sudo chmod +x /etc/init.d/scry-gpio-service.sh
+sudo update-rc.d scry-gpio-service.sh defaults
 sudo systemctl daemon-reload
+
 
 # setup the monitor app
 cd ./monitor

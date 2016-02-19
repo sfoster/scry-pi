@@ -7,7 +7,7 @@ import paho.mqtt.client as paho
 import argparse
 import sys
 
-LOG_FILENAME = "/tmp/buttonservice.log"
+LOG_FILENAME = "/tmp/scry-gpio.log"
 LOG_LEVEL = logging.INFO  # Could be e.g. "DEBUG" or "WARNING"
 
 # ---------------------------------------------------------------
@@ -46,7 +46,7 @@ sys.stderr = MyLogger(logger, logging.ERROR)
 # /Configure logging
 # ---------------------------------------------------------------
 
-mqtt_host = os.environ.get('MQTT_HOST', 'test.mosquitto.org')
+mqtt_host = os.environ.get('MQTT_HOST', '127.0.0.1')
 mqtt_port = os.environ.get('MQTT_PORT', '1883')
 
 # which pin is the button on?
@@ -55,7 +55,7 @@ btn_state = False
 self_topic = 'button'
 
 # Define and parse command line arguments
-parser = argparse.ArgumentParser(description="My simple Python service")
+parser = argparse.ArgumentParser(description="Watch for button presses")
 parser.add_argument("--host", help="MQTT host publish to  (default '" + mqtt_host + "')")
 parser.add_argument("--port", help="MQTT port publish to  (default '" + str(mqtt_port) + "')")
 parser.add_argument("--channel", help="I/O channel to watch (default '" + str(btn_channel) + "')")
