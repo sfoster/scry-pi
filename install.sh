@@ -117,8 +117,17 @@ function install_app {
   sudo install -D scry-gpio-service.sh /etc/init.d/scry-gpio-service.sh
   sudo chmod +x /etc/init.d/scry-gpio-service.sh
   sudo update-rc.d scry-gpio-service.sh defaults
-  sudo systemctl daemon-reload
 
+  # populate placeholders and create config for pm2
+  sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
+
+  # get pm2 to run our node.js apps at startup
+  sudo update-rc.d -f pm2-init.sh remove
+  sudo install -D pm2-init.sh /etc/init.d/pm2-init.sh
+  sudo chmod +x /etc/init.d/pm2-init.sh
+  sudo update-rc.d pm2-init.sh defaults
+
+  sudo systemctl daemon-reload
 
   # setup the monitor app
   cd ./monitor
@@ -134,7 +143,7 @@ function install_app {
 if $should_install_deps; then
   install_dependencies
 else
-  echo "Skipping depedencies install" >&2
+  echo "Skipping dependencies install" >&2
 fi
 
 if $should_install_app; then
