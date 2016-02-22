@@ -86,7 +86,7 @@ function install_dependencies {
   if ! command_exists mosquitto_pub;  then
     packages="$packages mosquitto-clients"
   fi
-  python_packages = "$python_packages paho.mqtt.client"
+  python_packages="$python_packages paho.mqtt.client"
 
   if ! command_exists uzbl;  then
     packages="$packages uzbl"
