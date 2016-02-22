@@ -13,8 +13,11 @@ should_install_deps=true
 should_install_app=true
 should_apt_update=true
 should_install_certs=true
+should_install_modules=true
 
-while getopts "AIUuC" opt; do
+python_modules="paho-mqtt"
+
+while getopts "AIUuCP" opt; do
   case $opt in
     A)
       should_install_app=false
@@ -31,6 +34,9 @@ while getopts "AIUuC" opt; do
     C)
       should_install_certs=false
       ;;
+    P)
+      should_install_modules=false
+      ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       exit 1
@@ -40,7 +46,7 @@ done
 
 function install_dependencies {
   packages="nodm openbox xorg xinit unclutter";
-  python_packages="";
+  python_modules="";
 
   if $should_apt_update; then
     sudo apt-get update
@@ -86,7 +92,6 @@ function install_dependencies {
   if ! command_exists mosquitto_pub;  then
     packages="$packages mosquitto-clients"
   fi
-  python_packages="$python_packages paho.mqtt.client"
 
   if ! command_exists uzbl;  then
     packages="$packages uzbl"
@@ -111,9 +116,12 @@ function install_dependencies {
     sudo npm install pm2 -g
   fi
 
-  if ! [ -Z $python_packages ]; then
-    echo "Installing python modules: $python_packages"
-    pip install $python_packages
+}
+
+function install_python_modules {
+  if [ ! -z $python_modules ]; then
+    echo "Installing python modules: $python_modules"
+    sudo pip install $python_modules
   fi
 }
 
@@ -127,7 +135,7 @@ function install_app {
   sudo update-rc.d -f scry-gpio-service.sh remove
   sudo install -D scry-gpio-service.sh /etc/init.d/scry-gpio-service.sh
   sudo chmod +x /etc/init.d/scry-gpio-service.sh
-  sudo update-rc.d  defaults
+  sudo update-rc.d scry-gpio-service.sh defaults
 
   # populate placeholders and create config for pm2
   sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
@@ -155,6 +163,12 @@ if $should_install_deps; then
   install_dependencies
 else
   echo "Skipping dependencies install" >&2
+fi
+
+if $should_install_modules; then
+  install_python_modules
+else
+  echo "Skipping python modules install" >&2
 fi
 
 if $should_install_app; then
