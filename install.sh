@@ -40,6 +40,7 @@ done
 
 function install_dependencies {
   packages="nodm openbox xorg xinit unclutter";
+  python_packages="";
 
   if $should_apt_update; then
     sudo apt-get update
@@ -69,6 +70,10 @@ function install_dependencies {
     cd .. && rm -R quick2wire-gpio-admin-master quick2wire-gpio-admin.zip
   fi
 
+  if ! command_exists pip;  then
+    packages="$packages python-pip"
+  fi
+
   if ! command_exists mosquitto;  then
     echo "Mosquitto not installed, adding package repository" >&2
     # install Mosquitto
@@ -81,6 +86,7 @@ function install_dependencies {
   if ! command_exists mosquitto_pub;  then
     packages="$packages mosquitto-clients"
   fi
+  python_packages = "$python_packages paho.mqtt.client"
 
   if ! command_exists uzbl;  then
     packages="$packages uzbl"
@@ -104,6 +110,11 @@ function install_dependencies {
   if ! command_exists pm2;  then
     sudo npm install pm2 -g
   fi
+
+  if ! [ -Z $python_packages ]; then
+    echo "Installing python modules: $python_packages"
+    pip install $python_packages
+  fi
 }
 
 function install_app {
@@ -116,7 +127,7 @@ function install_app {
   sudo update-rc.d -f scry-gpio-service.sh remove
   sudo install -D scry-gpio-service.sh /etc/init.d/scry-gpio-service.sh
   sudo chmod +x /etc/init.d/scry-gpio-service.sh
-  sudo update-rc.d scry-gpio-service.sh defaults
+  sudo update-rc.d  defaults
 
   # populate placeholders and create config for pm2
   sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
