@@ -76,6 +76,8 @@ if args.log:
 if os.path.isfile(config_file):
     with open(config_file) as data_file:
         data = json.load(data_file)
+        if 'prefix' in data: 
+	    io_config['prefix'] = data['prefix']
         if 'inputs' in data:
             # merge them
             io_config['inputs'] = io_config['inputs'] + data['inputs']
@@ -88,7 +90,7 @@ else:
     logger.info("No config found at %s, using default" % (config_file))
 
 
-logger.info('Using host: %s' % mqtt_host)
+logger.info('Using host: %s, publishing with prefix: %s' % (mqtt_host, io_config['prefix']))
 GPIO.setmode(GPIO.BOARD)
 
 pud_map = {
