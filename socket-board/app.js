@@ -62,6 +62,11 @@ if (process.env.NODE_ENV == 'development') {
   })(app.locals.config);
 }
 
+app.get('/ip', function(req, res, next) {
+  var ip = require('./lib/ip')();
+  res.send(JSON.stringify(ip));
+});
+
 // fallback handling request as static file
 app.use(express.static(path.join(__dirname, 'client')));
 

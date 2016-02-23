@@ -3,77 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Scry Pi</title>
-    <style>
-      html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        margin: 0;
-      }
-      body {
-        color: white;
-        font-size: 18px;
-        background-color: #000;
-        font-family: Garamond, sans-serif;
-        -moz-user-select: none;
-        transition: background-color 0.2s ease;
-      }
-      body.glow {
-        background-color: #33f;
-      }
-      body:not(.glow) {
-        transition-duration: 0.1s;
-      }
-
-      #wrapper {
-        padding: 1rem 1rem 4rem;
-        position: absolute;
-        top: 0; bottom: 0; left: 0; right: 0;
-      }
-      #wrapper > header {
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        background: #222;
-        padding: 0.2rem 1rem;
-      }
-      #wrapper > header h1 {
-        margin: 0;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: normal;
-      }
-      #wrapper > footer {
-        position: absolute;
-        bottom: 0; right: 0;
-        text-align: right;
-        background: #222;
-        padding: 0.2rem 1rem;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: normal;
-      }
-      .loading {
-        opacity: 0.2;
-      }
-      .forecast {
-        background-repeat: no-repeat;
-        background-position: 0.5rem 50%;
-      }
-      .forecast > p,
-      .forecast > h2 {
-        padding-left: 6rem;
-      }
-      .clock {
-        display: flex;
-      }
-      .clock > .date {
-        flex: 0 1 auto;
-      }
-      .clock > .time {
-        flex: 0 1 auto;
-        padding: 0 1rem;
-      }
-    </style>
+    <link rel="StyleSheet" href="./style/dashboard.css">
   </head>
   <body>
     <div id="wrapper">
@@ -98,6 +28,7 @@
     <script src="js/fetch.js" defer></script>
     <script src="js/widget.js" defer></script>
     <script src="js/clock_widget.js" defer></script>
+    <script src="js/ip_widget.js" defer></script>
     <script src="js/image_widget.js" defer></script>
     <script src="js/forecast_widget.js" defer></script>
     <script src="js/dashboard.js" defer></script>

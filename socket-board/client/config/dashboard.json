@@ -3,11 +3,16 @@
 
     "slots": [
       {"slotid": "slot_1", "widget" : "clock",    "config": "clock"},
-      {"slotid": "slot_5", "widget" : "forecast", "config": "wunderground-forecast"}
+      {"slotid": "slot_3", "widget" : "ip", "config": "ipaddress"},
+      {"slotid": "slot_6", "widget" : "forecast", "config": "wunderground-forecast"}
     ]
   },
 
   "config" : {
+    "ipaddress": {
+      "widgetTitle": "IP",
+      "url": "/ip"
+    },
     "clock": {
       "widgetTitle": "Current Time",
       "interval": 1000

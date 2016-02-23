@@ -1,7 +1,3 @@
-/*!
- * config
- */
-
 'use strict'
 
 /**

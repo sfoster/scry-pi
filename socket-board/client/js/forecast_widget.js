@@ -33,15 +33,21 @@ ForecastWidget.prototype.render = function(delta) {
   var tmpContainer;
   if (this.firstRender) {
     tmpContainer = document.createDocumentFragment();
+    this.contentNode = document.createElement('div');
     this.titleNode = document.createElement('h2');
+    this.iconNode = document.createElement('p');
     this.textNode = document.createElement('p');
-    tmpContainer.appendChild(this.titleNode);
-    tmpContainer.appendChild(this.textNode);
+    tmpContainer.appendChild(this.iconNode);
+    tmpContainer.appendChild(this.contentNode);
+    this.contentNode.appendChild(this.titleNode);
+    this.contentNode.appendChild(this.textNode);
     this.node.classList.add('forecast');
+    this.iconNode.classList.add('icon', 'narrow');
   }
   this.titleNode.innerHTML = this.forecast.title;
   this.textNode.innerHTML = this.forecast.fcttext;
-  this.node.style.backgroundImage = 'url(' + this.forecast.icon_url + ')';
+  this.contentNode.classList.add('content');
+  this.iconNode.style.backgroundImage = 'url(' + this.forecast.icon_url + ')';
 
   if (this.firstRender) {
     this.node.appendChild(tmpContainer);
