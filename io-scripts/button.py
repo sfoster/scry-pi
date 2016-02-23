@@ -4,6 +4,7 @@ import logging
 import logging.handlers
 import RPi.GPIO as GPIO
 import paho.mqtt.client as paho
+import simplejson as json
 import argparse
 import sys
 
@@ -48,17 +49,16 @@ sys.stderr = MyLogger(logger, logging.ERROR)
 
 mqtt_host = os.environ.get('MQTT_HOST', '127.0.0.1')
 mqtt_port = os.environ.get('MQTT_PORT', '1883')
+scry_dir =  os.environ.get('SCRY_DIR', '1883')
+config_file = os.path.join(os.path.dirname(__file__), 'config.json')
 
-# which pin is the button on?
-btn_channel = 18
-btn_state = False
-self_topic = 'button'
+io_config = { 'prefix': '/', 'inputs': [], 'outputs': [] }
 
 # Define and parse command line arguments
 parser = argparse.ArgumentParser(description="Watch for button presses")
 parser.add_argument("--host", help="MQTT host publish to  (default '" + mqtt_host + "')")
 parser.add_argument("--port", help="MQTT port publish to  (default '" + str(mqtt_port) + "')")
-parser.add_argument("--channel", help="I/O channel to watch (default '" + str(btn_channel) + "')")
+parser.add_argument("--config", help="config filename '" + str(config_file) + "')")
 parser.add_argument("-l", "--log", help="file to write log to (default '" + LOG_FILENAME + "')")
 
 args = parser.parse_args()
@@ -66,30 +66,83 @@ if args.host:
         mqtt_host = args.host
 if args.port:
         mqtt_port = args.port
-if args.channel:
-        btn_channel = args.channel
+if args.config:
+        config_file = args.config
 if args.log:
         LOG_FILENAME = args.log
 
+
+if os.path.isfile(config_file):
+    with open(config_file) as data_file:
+        data = json.load(data_file)
+        if 'inputs' in data:
+            # merge them
+            io_config['inputs'] = io_config['inputs'] + data['inputs']
+            logger.info("merged inputs from config: %s" % json.dumps(io_config['inputs']))
+        if 'outputs' in data:
+            # merge them
+            io_config['outputs'] = io_config['outputs'] + data['outputs']
+            logger.info("merged outputs from config: %s" % json.dumps(io_config['outputs']))
+else:
+    logger.info("No config found at %s, using default" % (config_file))
+
+
 logger.info('Using host: %s' % mqtt_host)
+GPIO.setmode(GPIO.BOARD)
 
-GPIO.setmode(GPIO.BCM)
-# use the software-defined pull-up resistor
-GPIO.setup(btn_channel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+pud_map = {
+    'up': GPIO.PUD_UP,
+    'down': GPIO.PUD_DOWN,
+    'off': GPIO.PUD_OFF
+}
 
-def on_rising(channel):
-    logger.info("Rising on channel %s" % channel)
-    client.publish(self_topic, "buttonup:" + str(btn_channel), 0)
+for inp in io_config['inputs']:
+    logger.info('Got input defn %s' % json.dumps(inp))
+    # use the software-defined pull-up resistor?
+    pud = inp['pull_up_down'] if 'pull_up_down' in inp else 'off';
+    if not pud in pud_map:
+        pud = 'off';
+    logger.info('set up pin %s as GPIO.IN, with pull_up_down: %s' % (inp['pin'], pud))
+    GPIO.setup(inp['pin'], GPIO.IN, pull_up_down=pud_map[pud])
 
-def on_falling(channel):
-    logger.info("Falling on channel %s" % channel)
+def register_input_events(inp):
+    logger.info('register_input_events for %s: %s' % (inp['name'], json.dumps(inp)))
+    if not 'events' in inp:
+        return None
+    pin = inp['pin']
+    name = inp['name']
+    topic = io_config['prefix'] + inp['topic']
+    events = inp['events']
+    for phase in events:
+        logger.info('register for %s' % phase)
+        if phase == 'rising' or phase == 'falling':
+            phase_flag = GPIO.FALLING if phase == 'falling' else GPIO.RISING
+            debounce = events[phase] if events[phase] >= 0 else 200
+            logger.info('add event detect for pin: %s, phase: %s, phase_flag: %s, topic: %s, debounce: %s' \
+                        % (pin, phase, phase_flag, topic, debounce))
+            GPIO.add_event_detect(pin, phase_flag, \
+                                  # json.dumps({ pin: pin, name: name, event: phase})
+                                  callback=lambda msg: client.publish(topic, name, 0), \
+                                  bouncetime=debounce)
+        else:
+            logger.info("Unknown input event phase %s, skipping" % phase)
 
-def on_connect(pahoClient, obj, rc):
-    # Once connected, publish message
+
+def unregister_input_events(inp):
+    if not 'events' in inp:
+        return None
+    pin = inp['pin']
+    GPIO.remove_event_detect(pin)
+
+def on_rising(msg):
     logger.info("Connected Code = %d on %s:%s" % (rc,mqtt_host,mqtt_port))
 
-    GPIO.add_event_detect(btn_channel, GPIO.RISING, callback=on_rising, bouncetime=200)
-    client.publish(self_topic, "hello", 0)
+def on_connect(pahoClient, obj, rc):
+    # Once connected, hook into i/o events
+    logger.info("Connected Code = %d on %s:%s" % (rc,mqtt_host,mqtt_port))
+
+    for inp in io_config['inputs']:
+        register_input_events(inp)
 
 def on_log(pahoClient, obj, level, string):
     logger.debug("log:" + string)

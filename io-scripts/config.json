@@ -1,0 +1,22 @@
+{
+  "inputs": [
+    {
+      "name": "obstacle1",
+      "pin": 11,
+      "events": {
+        "falling": 100
+      },
+      "topic": "inrange"
+    },
+    {
+      "name": "button1",
+      "pin": 13,
+      "pull_up_down": "up",
+      "events": {
+        "rising": 200
+      },
+      "topic": "buttonup"
+    }
+  ],
+  "outputs": []
+}
