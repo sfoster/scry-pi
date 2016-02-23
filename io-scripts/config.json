@@ -4,7 +4,7 @@
       "name": "obstacle1",
       "pin": 11,
       "events": {
-        "falling": 100
+        "rising": 300
       },
       "topic": "inrange"
     },

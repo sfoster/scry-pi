@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import time
 import logging
 import logging.handlers
 import RPi.GPIO as GPIO
@@ -122,7 +123,7 @@ def register_input_events(inp):
                         % (pin, phase, phase_flag, topic, debounce))
             GPIO.add_event_detect(pin, phase_flag, \
                                   # json.dumps({ pin: pin, name: name, event: phase})
-                                  callback=lambda msg: client.publish(topic, name, 0), \
+                                  callback=lambda msg: client.publish(topic, name +':'+time.strftime("%s"), 0), \
                                   bouncetime=debounce)
         else:
             logger.info("Unknown input event phase %s, skipping" % phase)
