@@ -23,8 +23,17 @@ document.addEventListener('DOMContentLoaded', function(event) {
       origin: location.origin
     });
   });
-  socket.on('gpio/button', function (data) {
+  socket.on('gpio/button', function(data) {
     console.log('got button event', data);
+    var btnEvent = new CustomEvent('hardbuttonup', {
+      detail: {
+        foo: 'Foo'
+      }
+    });
+    window.dispatchEvent(btnEvent);
+  });
+  socket.on('gpio/rangechange', function(data) {
+    console.log('got rangechange event', data);
     var btnEvent = new CustomEvent('hardbuttonup', {
       detail: {
         foo: 'Foo'

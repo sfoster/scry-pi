@@ -126,6 +126,7 @@ function install_python_modules {
 }
 
 function install_app {
+  echo "install_app"
   # add the SCRY_DIR to our defaults config
   # install defaults config to set up common environment for services
   sudo install -D config/env /etc/default/scrypi
@@ -138,6 +139,7 @@ function install_app {
   sudo update-rc.d scry-gpio-service.sh defaults
 
   # populate placeholders and create config for pm2
+  echo "replace MQTT_HOST placeholder: $MQTT_HOST"
   sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
 
   # get pm2 to run our node.js apps at startup

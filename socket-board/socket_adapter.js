@@ -9,27 +9,28 @@ var adapter = {
     'sensors/buttonup': function(message) {
       message = message.toString();
       console.log('adapter: buttonup message: ', message);
-      var id = message.spit(':')[0];
-      if (this.emitter) {
-        this.emitter.emit('gpio/button', {
+      var id = message.split(':')[0];
+      if (this.socketEmit) {
+        console.log('emit message: gpio/button');
+        this.socketEmit('gpio/button', {
           input_id: id,
           detail: message
         });
       } else {
-        console.log('no emitter to relay ' + id + ' event');
+        console.log('no emitter to relay button_1 event');
       }
     },
     'sensors/inrange': function(message) {
       message = message.toString();
       console.log('adapter: inrange message: ', message);
-      var id = message.spit(':')[0];
-      if (this.emitter) {
-        this.emitter.emit('gpio/rangechange', {
+      var id = message.split(':')[0];
+      if (this.socketEmit) {
+        this.socketEmit('gpio/rangechange', {
           input_id: id,
           detail: message
         });
       } else {
-        console.log('no emitter to relay ' + id + ' event');
+        console.log('no emitter to relay  event');
       }
     },
    'test': function(message) {
@@ -38,20 +39,21 @@ var adapter = {
   },
   connect: function(opts) {
     opts = opts || {};
-    this.emitter = opts.emitter;
-    console.log('socket_adapter: connect got emitter:', this.emitter);
+    console.log('socket_adapter: connect');
     var host = opts.host || DEFAULT_HOST;
-    var client = this.client = mqtt.connect('mqtt://' + host);
+    var mqttClient = this.mqttClient = mqtt.connect('mqtt://' + host);
     var topics = Object.keys(this.handlers);
+    this.socketEmit = opts.emit;
 
-    client.on('connect', function () {
-      console.log('connected on: ' + host);
-      client.unsubscribe(topics);
-      client.subscribe(topics);
+    mqttClient.on('connect', function () {
+      console.log('connected on: ' + host, 'subscribing to topics: ' + topics.join(','));
+      mqttClient.unsubscribe(topics);
+      mqttClient.subscribe(topics);
     });
 
-    client.on('message', function (topic, message) {
+    mqttClient.on('message', function (topic, message) {
       // message is Buffer
+      console.log('adapter: got message on topic:', topic, message);
       if (typeof this.handlers[topic] === 'function') {
         this.handlers[topic].call(this, message);
       } else {

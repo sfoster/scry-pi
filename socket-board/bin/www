@@ -15,10 +15,19 @@ var server = app.listen(app.get('port'), function() {
 var adapter = require('../socket_adapter');
 
 var io = require('socket.io')(server);
+adapter.connect({
+  host: process.env.MQTT_HOST,
+  emit: function(topic, message) {
+    if (io.socket) {
+      io.socket.emit(topic, message);
+    } else {
+      console.log('no socket to emit ', topic, message);
+    }
+  }
+});
 io.on('connection', function (socket) {
-  adapter.connect({
-    emitter: socket
-  });
+  io.socket = socket;
+  console.log('io connection');
   socket.on('client/ready', function (data) {
     console.log('some client is ready: ', data);
   });
