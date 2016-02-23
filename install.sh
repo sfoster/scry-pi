@@ -15,7 +15,7 @@ should_apt_update=true
 should_install_certs=true
 should_install_modules=true
 
-python_modules="paho-mqtt"
+python_modules="paho-mqtt simplejson"
 
 while getopts "AIUuCP" opt; do
   case $opt in
@@ -130,6 +130,7 @@ function install_app {
   # add the SCRY_DIR to our defaults config
   # install defaults config to set up common environment for services
   sudo install -D config/env /etc/default/scrypi
+  source /etc/default/scrypi
   echo "SCRY_DIR=$SCRY_DIR" | sudo tee -a /etc/default/scrypi > /dev/null
 
   # install the gpio listener as a service
