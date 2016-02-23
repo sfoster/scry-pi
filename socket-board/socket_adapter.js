@@ -6,15 +6,30 @@ var DEFAULT_HOST = process.env.MQTT_HOST || 'test.mosquitto.org';
 var adapter = {
   nom: 'adapter',
   handlers: {
-    'sensors/button_1': function(message) {
-      console.log('adapter: button_1 message: ', message.toString());
+    'sensors/buttonup': function(message) {
+      message = message.toString();
+      console.log('adapter: buttonup message: ', message);
+      var id = message.spit(':')[0];
       if (this.emitter) {
         this.emitter.emit('gpio/button', {
-          button_id: 'button_1',
-          detail: message.toString()
+          input_id: id,
+          detail: message
         });
       } else {
-        console.log('no emitter to relay button_1 event');
+        console.log('no emitter to relay ' + id + ' event');
+      }
+    },
+    'sensors/inrange': function(message) {
+      message = message.toString();
+      console.log('adapter: inrange message: ', message);
+      var id = message.spit(':')[0];
+      if (this.emitter) {
+        this.emitter.emit('gpio/rangechange', {
+          input_id: id,
+          detail: message
+        });
+      } else {
+        console.log('no emitter to relay ' + id + ' event');
       }
     },
    'test': function(message) {

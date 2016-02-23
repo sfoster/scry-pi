@@ -3,8 +3,11 @@ var host = process.env.MQTT_HOST || 'test.mosquitto.org';
 var client  = mqtt.connect('mqtt://' + host);
 
 var topicHandlers = {
-  'sensors/button_1': function(message) {
-    console.log('button_1 message: ', message.toString());
+  'sensors/buttonup': function(message) {
+    console.log('sensors/buttonup message: ', message.toString());
+  },
+  'sensors/inrange': function(message) {
+    console.log('sensors/inrange message: ', message.toString());
   },
   'test': function(message) {
     console.log('test message: ', message.toString());
