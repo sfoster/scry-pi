@@ -19,7 +19,7 @@ if [ -z "$SCRY_DIR" ] ;  then
   exit 1
 fi
 
-DAEMON=$SCRY_DIR/io-scripts/button.py
+DAEMON=$SCRY_DIR/io-scripts/gpio-mqtt.py
 DAEMON_NAME=scry-gpio
 
 # Add any command line options for your daemon here
