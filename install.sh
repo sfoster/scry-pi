@@ -6,7 +6,7 @@ command_exists () {
 
 cd `dirname $0`
 
-NODE_VERSION=5.3.0
+export NODE_VERSION=5.3.0
 SCRY_DIR=`pwd`
 
 should_install_deps=true
@@ -45,7 +45,7 @@ while getopts "AIUuCP" opt; do
 done
 
 function install_dependencies {
-  packages="nodm openbox xorg xinit unclutter";
+  packages="nodm matchbox-window-manager xorg uzbl xinit unclutter"
   python_modules="";
 
   if $should_apt_update; then
@@ -93,10 +93,6 @@ function install_dependencies {
     packages="$packages mosquitto-clients"
   fi
 
-  if ! command_exists uzbl;  then
-    packages="$packages uzbl"
-  fi
-
   sudo apt-get install --no-install-recommends -y -q $packages
 
   if ! command_exists node;  then
@@ -127,11 +123,15 @@ function install_python_modules {
 
 function install_app {
   echo "install_app"
-  # add the SCRY_DIR to our defaults config
   # install defaults config to set up common environment for services
   sudo install -D config/env /etc/default/scrypi
-  source /etc/default/scrypi
+  # add the SCRY_DIR to our defaults config
   echo "SCRY_DIR=$SCRY_DIR" | sudo tee -a /etc/default/scrypi > /dev/null
+
+  # install the xsession script where nodm will find it
+  install -D ./config/xsession ~/.xsession
+
+  source /etc/default/scrypi
 
   # install the gpio listener as a service
   sudo update-rc.d -f scry-gpio-service.sh remove
@@ -142,12 +142,6 @@ function install_app {
   # populate placeholders and create config for pm2
   echo "replace MQTT_HOST placeholder: $MQTT_HOST"
   sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
-
-  # get pm2 to run our node.js apps at startup
-  sudo update-rc.d -f pm2-init.sh remove
-  sudo install -D pm2-init.sh /etc/init.d/pm2-init.sh
-  sudo chmod +x /etc/init.d/pm2-init.sh
-  sudo update-rc.d pm2-init.sh defaults
 
   sudo systemctl daemon-reload
 

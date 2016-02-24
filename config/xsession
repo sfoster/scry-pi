@@ -1,0 +1,24 @@
+xset +dpms
+xset s off
+
+source /etc/default/scrypi
+
+cd $SCRY_DIR && \
+pm2 start ./config.json
+
+START_URL=$HTTP_ORIGIN/
+
+# Wait until http server is ready
+while ! curl -s -o /dev/null $START_URL; do
+  sleep 20
+done
+
+# Start the display manager
+exec matchbox-window-manager -use_titlebar no &
+# 
+while true; do
+  # Sometimes uzbl gets killed due to memory issues, this loop makes sure
+  # it starts back up
+  uzbl -u $START_URL -c $SCRY_DIR/config/uzbl.conf
+done
+
