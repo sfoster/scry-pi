@@ -143,14 +143,6 @@ function install_app {
   echo "replace MQTT_HOST placeholder: $MQTT_HOST"
   sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
 
-  # get pm2 to run our node.js apps at startup
-  sudo update-rc.d -f pm2-init.sh remove
-  sudo install -D pm2-init.sh /etc/init.d/pm2-init.sh
-  sudo chmod +x /etc/init.d/pm2-init.sh
-  sudo update-rc.d pm2-init.sh defaults
-
-  sudo systemctl daemon-reload
-
   # setup the monitor app
   cd ./monitor
   npm install
@@ -160,6 +152,13 @@ function install_app {
   cd ./socket-board
   npm install
   cd ..
+
+  # get pm2 to run our node.js apps at startup
+  sudo update-rc.d -f pm2-init.sh remove
+  pm2 start ./config.json
+  sudo su -c "env PATH=$PATH:/usr/local/bin pm2 startup ubuntu -u pi --hp /home/pi"
+
+  sudo systemctl daemon-reload
 }
 
 if $should_install_deps; then
