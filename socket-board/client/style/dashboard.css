@@ -4,7 +4,7 @@ html {
   height: 100%;
   overflow: hidden;
   margin: 0;
-  font-size: 128%;
+  font-size: 138%;
 }
 body {
   width: 100%;
@@ -54,10 +54,12 @@ body:not(.glow) {
 .col {
   width: 33%;
   display: flex;
+  display: -webkit-flex;
 }
 .col > p,
 .col > div {
   flex: 1 1 0;
+  -webkit-flex: 1 1 0;
   font-size: 1rem;
 }
 .col p {
@@ -67,18 +69,23 @@ body:not(.glow) {
 }
 .col > .narrow {
   flex: 0.3 1 0;
+  -webkit-flex: 0.3 1 0;
   width: 5rem;
 }
 .row {
   display: flex;
+  display: -webkit-flex;
 }
 .row {
   margin: 1rem 0;
   display: flex;
+  display: -webkit-flex;
   flex-direction: row;
+  -webkit-flex-direction: row;
 }
 .row > .col {
   flex-grow: 1;
+  -webkit-flex-grow: 1;
 }
 h2 {
   margin: 0.5rem 0 0.8rem;
@@ -93,6 +100,7 @@ p {
 
 .forecast > .content {
   flex: 1 1 0;
+  -webkit-flex: 1 1 0;
 }
 .forecast > .icon {
   width: 5rem;
@@ -105,12 +113,15 @@ p {
 }
 .clock {
   display: flex;
+  display: -webkit-flex;
 }
 .clock > .date {
   flex: 0 1 auto;
+  -webkit-flex: 0 1 auto;
 }
 .clock > .time {
   flex: 0 1 auto;
+  -webkit-flex: 0 1 auto;
   padding: 0 1rem;
 }
 .ipaddress > h2 {
