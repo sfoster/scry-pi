@@ -59,6 +59,8 @@ body:not(.glow) {
   width: 33%;
   display: flex;
   display: -webkit-flex;
+  align-self: flex-start;
+  -webkit-align-self: -webkit-flex-start;
 }
 .col:nth-child(2) {
   /* hide the center column */
@@ -118,7 +120,7 @@ p {
 .forecast > .icon {
   width: 5rem;
   background-repeat: no-repeat;
-  background-position: 0.5rem 50%;
+  background-position: 0.5rem 0.5rem;
 }
 .forecast > p,
 .forecast > h2 {
