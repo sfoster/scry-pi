@@ -28,6 +28,10 @@ body:not(.glow) {
   padding: 1rem 2rem 4rem;
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
 }
 #wrapper > header {
   position: absolute;
@@ -77,6 +81,8 @@ body:not(.glow) {
   width: 5rem;
 }
 .row {
+  flex: 1 1 0;
+  -webkit-flex: 1 1 0;
   display: flex;
   display: -webkit-flex;
 }
@@ -86,6 +92,9 @@ body:not(.glow) {
   display: -webkit-flex;
   flex-direction: row;
   -webkit-flex-direction: row;
+}
+#row_2.row {
+  flex-grow: 3;
 }
 .row > .col {
   flex-grow: 1;
