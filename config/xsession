@@ -1,7 +1,17 @@
+#!/bin/bash
 xset +dpms
 xset s off
 
+if [ ! -f /etc/default/scrypi ]; then
+  echo "$CONFIG not found" >&2
+  exit 1
+fi 
 source /etc/default/scrypi
+
+if [ -z $SCRY_DIR ]; then
+  echo "SCRY_DIR not defined" >&2
+  exit 1
+fi
 
 cd $SCRY_DIR && \
 pm2 start ./config.json

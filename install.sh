@@ -139,6 +139,12 @@ function install_app {
   sudo chmod +x /etc/init.d/scry-gpio-service.sh
   sudo update-rc.d scry-gpio-service.sh defaults
 
+  # install the wakeup listener as a service
+  sudo update-rc.d -f scry-wakeup-service.sh remove
+  sudo install -D scry-wakeup-service.sh /etc/init.d/scry-wakeup-service.sh
+  sudo chmod +x /etc/init.d/scry-wakeup-service.sh
+  sudo update-rc.d scry-wakeup-service.sh defaults
+
   # populate placeholders and create config for pm2
   echo "replace MQTT_HOST placeholder: $MQTT_HOST"
   sed "s|__MQTT_HOST__|$MQTT_HOST|" ./config/pm2-config.template > ./config.json
