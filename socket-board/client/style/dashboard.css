@@ -56,6 +56,10 @@ body:not(.glow) {
   display: flex;
   display: -webkit-flex;
 }
+.col:nth-child(2) {
+  /* hide the center column */
+  display:none;
+}
 .col > p,
 .col > div {
   flex: 1 1 0;
