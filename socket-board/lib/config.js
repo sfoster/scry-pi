@@ -29,7 +29,8 @@ module.exports = function(variant) {
         throw new Error('No such config entry: ' + key);
       }
       // some way to do this with template strings?
-      var value = data[key].replace(/\$\{[^\}]+\}/g, function(m, name) {
+      var value = data[key].replace(/\$\{([^\}]+)\}/g, function(m, name) {
+        console.log('replace ' + name + ':' + data[name]);
         return (name in data) ? data[name] :  '';
       });
       return value;
