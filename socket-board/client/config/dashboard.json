@@ -4,7 +4,8 @@
     "slots": [
       {"slotid": "slot_1", "widget" : "clock",    "config": "clock"},
       {"slotid": "slot_3", "widget" : "ip", "config": "ipaddress"},
-      {"slotid": "slot_6", "widget" : "forecast", "config": "wunderground-forecast"}
+      {"slotid": "slot_6", "widget" : "forecast", "config": "wunderground-forecast"},
+      {"slotid": "slot_7", "widget" : "analog_clock", "config": "analog_clock"}
     ]
   },
 
@@ -16,6 +17,9 @@
     "clock": {
       "widgetTitle": "Current Time",
       "interval": 1000
+    },
+    "analog_clock": {
+      "widgetTitle": "Current Time (Analog)"
     },
     "calendar-holidays": {
       "interval": 60000,
@@ -31,7 +35,7 @@
 
     "wunderground-forecast": {
       "widgetTitle": "Wunderground Forecast",
-      "url": "/wunderground/api/forecast/q/OR/Eugene.json"
+      "url": "/wunderground/api/forecast/q/CA/San_Francisco.json"
     }
 
   }

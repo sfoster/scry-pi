@@ -14,7 +14,9 @@ function Widget(options) {
 Widget._nextId = 0;
 Widget.createWidget = function(type, options) {
   // use require.js or similar to lazy load?
-  var ctorName = type.charAt(0).toUpperCase() + type.substring(1);
+  var ctorName = type.replace(/(^|_)([a-z0-9])/g, function(m, n, b) {
+    return b.toUpperCase();
+  });
   var Ctor = window[ctorName + 'Widget'];
   options.type = type;
 
