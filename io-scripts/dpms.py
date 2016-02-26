@@ -13,7 +13,7 @@ io_config = { 'prefix': '/', 'inputs': [], 'outputs': [] }
 if os.path.isfile(config_file):
     with open(config_file) as data_file:
         data = json.load(data_file)
-        if 'prefix' in data: 
+        if 'prefix' in data:
             io_config['prefix'] = data['prefix']
 
 
@@ -21,6 +21,7 @@ def on_connect(pahoClient, obj, rc):
     # Once connected, hook into i/o events
     os.environ['DISPLAY'] = ":0"
     client.subscribe(io_config['prefix'] + 'buttonup')
+    client.subscribe(io_config['prefix'] + 'inrange')
 
 def on_message(client, userdata, msg):
     # xset dpms force on
