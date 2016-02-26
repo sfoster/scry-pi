@@ -96,7 +96,13 @@ body:not(.glow) {
   -webkit-flex-direction: row;
 }
 #row_2.row {
-  flex-grow: 3;
+  flex-grow: 10;
+  -webkit-flex-grow: 10;
+}
+#row_3.row {
+  flex: 1 1 0;
+  -webkit-flex: 1 1 6rem;
+  height: 30rem;
 }
 .row > .col {
   flex-grow: 1;
