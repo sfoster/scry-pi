@@ -16,27 +16,26 @@
     },
     "clock": {
       "widgetTitle": "Current Time",
-      "interval": 1000
+      "interval": "1s"
     },
     "analog_clock": {
       "widgetTitle": "Current Time (Analog)"
     },
     "calendar-holidays": {
-      "interval": 60000,
+      "interval": "12h",
       "calendarUrl": "http://www.calendarlabs.com/templates/ical/US-Holidays.ics",
       "maxEntries": 9,
       "widgetTitle": "Upcoming US Holidays"
     },
     "picture-of-the-day": {
-      "interval": 60000,
+      "interval": "12h",
       "widgetTitle": "Nat Geo Picture of the Day",
       "url": "http://photography.nationalgeographic.com/photography/photo-of-the-day"
     },
-
     "wunderground-forecast": {
       "widgetTitle": "Wunderground Forecast",
-      "url": "/wunderground/api/forecast/q/OR/Eugene.json"
+      "url": "/wunderground/api/forecast/q/OR/Eugene.json",
+      "interval": "1h"
     }
-
   }
 }

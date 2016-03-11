@@ -63,15 +63,20 @@ Dashboard.prototype.reConfig = function(data) {
 Dashboard.prototype.prepareIntervals = function() {
   var widget;
   var itv;
+  var minInterval = 16;
   this.intervals = {};
   for(var id in this.widgets) {
     widget = this.widgets[id];
-    itv = parseInt(widget.config.interval);
-    if (!isNaN(itv)) {
-      if (!this.intervals[itv]) {
-        this.intervals[itv] = [];
+    if (widget.config.interval) {
+      itv = utils.getMillisFromTimeString(widget.config.interval);
+      if (!isNaN(itv) && itv >= minInterval) {
+        if (!this.intervals[itv]) {
+          this.intervals[itv] = [];
+        }
+        this.intervals[itv].push(id);
+      } else {
+        console.warn('Ignoring invalid interval: ', id, widget.config.interval, itv);
       }
-      this.intervals[itv].push(id);
     }
   }
   Object.keys(this.intervals).forEach(function(itv) {
