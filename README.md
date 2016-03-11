@@ -17,10 +17,9 @@ While some parts of the project may run on any *nix environment, the current tar
 $ sudo ./install.sh
 ```
 
-This should install the message broker and the various clients. To run it all:
+Everything should start automatically on reboot, as the installer registers services in /etc/init.d, and establishes a .xsession file for the 'pi' user to start up everything else.
 
-```
-$ sudo ./start.sh
-```
+To hook up sensors, see io-scripts/config for the current configuration. To add/edit the dashboard itself, see socket-board/config/dashboard.json and corresponding routes in socket-board/app.js
+
 
 
