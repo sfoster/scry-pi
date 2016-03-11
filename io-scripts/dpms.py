@@ -5,7 +5,6 @@ import simplejson as json
 
 mqtt_host = os.environ.get('MQTT_HOST', '127.0.0.1')
 mqtt_port = os.environ.get('MQTT_PORT', '1883')
-scry_dir =  os.environ.get('SCRY_DIR', '1883')
 config_file = os.path.join(os.path.dirname(__file__), 'config.json')
 
 io_config = { 'prefix': '/', 'inputs': [], 'outputs': [] }

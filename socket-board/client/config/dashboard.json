@@ -35,7 +35,7 @@
 
     "wunderground-forecast": {
       "widgetTitle": "Wunderground Forecast",
-      "url": "/wunderground/api/forecast/q/CA/San_Francisco.json"
+      "url": "/wunderground/api/forecast/q/OR/Eugene.json"
     }
 
   }

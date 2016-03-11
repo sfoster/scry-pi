@@ -3,16 +3,15 @@
   "inputs": [
     {
       "name": "obstacle1",
-      "pin": 11,
+      "pin": 13,
       "events": {
-        "rising": 300
+        "falling": 500
       },
       "topic": "inrange"
     },
     {
       "name": "button1",
-      "pin": 13,
-      "pull_up_down": "up",
+      "pin": 11,
       "events": {
         "rising": 200
       },
